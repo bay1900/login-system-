@@ -1,32 +1,33 @@
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Log in app</title>
-    <link rel="stylesheet" href="/css/style.css" media="screen" title="no title">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  </head>
-  <body>
-    <!-- {{{body}}} -->
+<head>
+	<title>LoginApp</title>
+  <link rel="stylesheet" href="/css/style.css" media="screen" title="no title">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <div class="container">
-     <div class="header clearfix">
-       <nav>
-         <ul class="nav nav-pills pull-right">
-           <li role="presentation"><a href="/">Dash board</a></li>
-           <li role="presentation"><a href="/users/login">logIn</a></li>
-           <li role="presentation"><a href="/users/register">Register</a></li>
-           <li role="presentation"><a href="/users/logout">Logout</a></li>
+</head>
+<body>
+	<div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            {{#if user}}
+              <li role="presentation"><a href="/">Dashboard</a></li>
+              <li role="presentation"><a href="/users/logout">Logout</a></li>
+            {{else}}
+              <li role="presentation"><a href="/users/login">Login</a></li>
+              <li role="presentation"><a href="/users/register">Register</a></li>
+            {{/if}}
+          </ul>
+        </nav>
+        <h3 class="text-muted">LoginApp</h3>
+      </div>
 
-         </ul>
-       </nav>
-       <h3 class="text-muted">Lao embassy</h3>
-     </div>
 
-    <div class="row">
-      <div class="col-lg-12">
-
+      <div class="row">
+        <div class="col-lg-12">
           {{#if success_msg}}
             <div class="alert alert-success">{{success_msg}}</div>
           {{/if}}
@@ -39,18 +40,16 @@
             <div class="alert alert-danger">{{error}}</div>
           {{/if}}
 
-    
+          {{{body}}}
+        </div>
 
-         {{{body}}}
+
       </div>
 
-    </div>
+      <footer class="footer">
+        <p>&copy; 2015 LoginApp, Inc.</p>
+      </footer>
 
-     <footer class="footer">
-       <p>&copy; 2016 Company, Inc.</p>
-     </footer>
-
-   </div> <!-- /container -->
-
-  </body>
+    </div> <!-- /container -->
+</body>
 </html>

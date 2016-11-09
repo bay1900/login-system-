@@ -1,4 +1,3 @@
-
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -12,11 +11,11 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/loginapp'); // connect to database
+mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
 
-var routes = require('./routes/index'); // call index route
-var users = require('./routes/users');  // call users route
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
 // Init App
 var app = express();
