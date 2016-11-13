@@ -85,3 +85,26 @@ body {
 footer {
   margin-top: 40px ;
 }
+/*===================================*/
+#try{
+  border: solid red 1px;
+}
+
+#login {
+  background-color: #F8F8F8  ;
+}
+
+
+#indextop {
+  margin-top : 100px ;
+  font-family: 'Cormorant Garamond', serif;
+
+}
+
+#indextop img {
+    border-radius: 50%;
+}
+
+#indextop2  {
+  margin-top: 60px;
+}
