@@ -108,3 +108,7 @@ footer {
 #indextop2  {
   margin-top: 60px;
 }
+
+#postline {
+  border: solid red 1px;
+}
