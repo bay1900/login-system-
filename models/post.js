@@ -5,7 +5,10 @@ var bodyParser = require('body-parser');
 
 var PostSchema   = new Schema({
     title: String,
-    description: String
+    description: String,
+    photoName: String,
+    photoUrl: String
+
 });
 
 module.exports = mongoose.model('Post', PostSchema);

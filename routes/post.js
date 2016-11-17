@@ -1,8 +1,14 @@
-
 var express = require('express');
 var router = express.Router();
 var Post     = require('../models/post');
 var bodyParser = require('body-parser');
+var cloudinary = require('cloudinary');
+
+cloudinary.config({
+  cloud_name: 'duwfymg9e',
+  api_key: '817171557419776',
+  api_secret: '8CiFGmeNrSyCWJU6iPU92dHjCZc'
+});
 
 router.use(function(req, res, next) {
     // do logging
@@ -21,53 +27,80 @@ router.use(function(req, res, next) {
           });
       });
 
+var photo = "http://images.fonearena.com/blog/wp-content/uploads/2013/11/lenovo-p780-photo-gallery-2.jpg";
+    router.route('/')
+    .post( function(req, res){
+
+      var img_url = '';
+      var img_id = '';
+      var img_name = '';
+
+      var title = req.body.title;
+      var description = req.body.description;
+      var photo = req.file;
+      var errors = req.validationErrors();
 
 
+      cloudinary.uploader.upload("http://images.fonearena.com/blog/wp-content/uploads/2013/11/lenovo-p780-photo-gallery-2.jpg", function(result) {
+        console.log("Cloudinary after upload");
+        // if (err){ console.log(err);}
+        console.log(result);
+        // console.log(result.public_id + result.url);
+        img_url = result.url;
+        img_id = result.public_id;
+        img_name = result.original_filename;
 
-router.route('/')
+        console.log("Cloudinary worked: " + img_url);
 
-    // .post(function(req, res) {
-    //
-    //     var post = new Post();      // create a new instance of the Bear model
-    //     post.title = req.body.title;  // set the bears name (comes from the request)
-    //     post.description = req.body.description;
-    //       // save the bear and check for errors
-    //       post.save(function(err) {
-    //           if (err)
-    //               res.send(err);
-    //               res.json({ message: 'posted on post page!' });
-    //         var newPost = new post({
-    //           		 title: title,
-    //                description: description
-    //           		});
-    //     });
-    // })
+        if(errors){
+          res.render('post',{
+            errors:errors
+          });
+        } else {
+          var newPost = new Post({
+            title: title,
+            description: description,
+            photoName: img_name,
+            photoUrl: img_url
+          });
 
-    .post(function(req, res){
-    	var title = req.body.title;
-    	var description = req.body.description;
+          newPost.save(function(err) {
+           if (err)
+               res.send(err);
+               res.json({ message: 'posted on post page!' });
 
+            });
+          };
 
 
-    	var errors = req.validationErrors();
+      });
+    	// var title = req.body.title;
+    	// var description = req.body.description;
+      // var photo = req.file;
+    	// var errors = req.validationErrors();
 
-    	if(errors){
-    		res.render('post',{
-    			errors:errors
-    		});
-    	} else {
-    		var newPost = new Post({
-    			title: title,
-    			description: description
-    		});
-        newPost.save(function(err) {
-                 if (err)
-                     res.send(err);
-                     res.json({ message: 'posted on post page!' });
-                   });
-    };
-  })
+      // console.log(img_url);
 
+    	// if(errors){
+    	// 	res.render('post',{
+    	// 		errors:errors
+    	// 	});
+    	// } else {
+    	// 	var newPost = new Post({
+    	// 		title: title,
+    	// 		description: description
+      //     // photoName: req.files.originalname,
+      //     // photoUrl: req.files.path
+    	// 	});
+      //
+      //   newPost.save(function(err) {
+      //    if (err)
+      //        res.send(err);
+      //        res.json({ message: 'posted on post page!' });
+      //
+      //     });
+      //   };
+    })
     .get(function(req, res) {
 
           Post.find({}, function (err, docs) {
@@ -79,7 +112,6 @@ router.route('/')
 
 router.route('/:posts_id')
 
-    // get the bear with that id (accessed at GET http://localhost:8080/api/bears/:bear_id)
     .get(function(req, res) {
         Post.findById(req.params.posts_id, function(err, docs) {
             if (err) res.json(err);
@@ -110,16 +142,33 @@ router.route('/:posts_id')
         })
 
         .delete(function(req, res) {
-    Post.remove({
-        _id: req.params.posts_id
-    }, function(err, post) {
-        if (err)
-            res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
-    });
-});
+            Post.remove({
+                _id: req.params.posts_id
+                      }, function(err, post) {
+                          if (err)
+                              res.send(err);
+                              res.redirect("post");
+                            });
+                        });
 
 
 
 module.exports = router;
+
+
+// .post(function(req, res) {
+//
+//     var post = new Post();      // create a new instance of the Bear model
+//     post.title = req.body.title;  // set the bears name (comes from the request)
+//     post.description = req.body.description;
+//       // save the bear and check for errors
+//       post.save(function(err) {
+//           if (err)
+//               res.send(err);
+//               res.json({ message: 'posted on post page!' });
+//         var newPost = new post({
+//           		 title: title,
+//                description: description
+//           		});
+//     });
+// })
